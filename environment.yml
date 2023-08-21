@@ -1,0 +1,19 @@
+name: JLabFlow-2.0.0b
+channels:
+ - conda-forge
+ - bioconda
+ - defaults
+dependencies:
+ - python=3.7
+ - fastqc
+ - samtools
+ - picard
+ - bamtools
+ - bedtools
+ - deeptools
+ - multiqc
+ - bowtie2
+ - cutadapt
+ - sambamba
+ - trim-galore
+ - genrich
