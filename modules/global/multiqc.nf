@@ -8,7 +8,7 @@
 process MULTIQC {
   tag "collating logs with Multiqc"
   label "small_mem"
-  publishDir "$params.outdir/results", mode: 'move'
+  publishDir "$params.outdir", mode: 'move'
   
   input:
   path("*")
