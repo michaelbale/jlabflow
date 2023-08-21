@@ -4,16 +4,21 @@ channels:
  - bioconda
  - defaults
 dependencies:
- - python=3.7
- - fastqc
- - samtools
- - picard
- - bamtools
- - bedtools
- - deeptools
- - multiqc
- - bowtie2
- - cutadapt
- - sambamba
- - trim-galore
- - genrich
+ - conda-forge::python=3.11.0=he550d4f_1_cpython
+ - bioconda::fastqc=0.12.1=hdfd78af_0
+ - bioconda::samtools=1.17=hd87286a_1
+ - bioconda::picard=3.0.0=hdfd78af_1
+ - bioconda::bamtools=2.5.2=hdcf5f25_2
+ - bioconda::bedtools=2.31.0=hf5e1c6e_2
+ - bioconda::deeptools=3.5.2=pyhdfd78af_1
+ - bioconda::multiqc=1.15=pyhdfd78af_0
+ - bioconda::bowtie2=2.5.1=py39he00c5e5_2
+ - bioconda::trim-galore=0.6.10=hdfd78af_0
+ - bioconda::genrich=0.6.1=he4a0461_4
+ - conda-forge::r-base=4.3.0=hfabd6f2_3
+ - bioconda::bioconductor-deseq2=1.38.0=r42hc247a5b_0
+ - bioconda::pysam=0.20.0=py39h9abd093_0
+ - bioconda::homer=4.11=pl5321h9f5acd7_7
+ - bioconda::macs2=2.2.7.1=py39hbf8eff0_5
+ - bioconda::chip-r=1.2.0=pyh3252c3a_0
+
