@@ -1,0 +1,45 @@
+CALLPEAKS MODULES:
+  - ENTRY POINTS:
+    - ATAC
+    - IP
+ 
+  - PEAK CALLERS:
+    - GENRICH
+      - ATAC
+    - MACS3
+      - IPSEQ
+ 
+  - FLOW:
+    - ATAC:
+      - SORTBYNAME
+      - GENRICHIND
+      - CALCFRIP
+	  - PROCESSFRIPLOGS
+	  - if(callconsensus)
+		- CALLCONSENSUS:
+		  - COLLECTINDPEAKS
+		  - FRIPGLOBAL
+		  - GENERATECOUNTMAT
+		  - BIGWIGTMM
+		  - if (peakviz):
+		    - DATAVIZ:
+		      - PLOTPCA
+		      - PLOTCORREL
+		      - SUNSETPLOTPEAK
+		      - TORNADOPLOTGENES
+	- IPSEQ:
+	  - MACS3IND
+	    - NARROW, BROAD, BOTH
+	  - CALCFRIP
+	  - if(callconsensus) 
+		- CALLCONSENSUS:
+		  - COLLECTINDPEAKS
+		  - FRIPGLOBAL
+		  - GENERATECOUNTMAT
+		  - BIGWIGTMM
+		  - if (peakviz):
+		    - DATAVIZ:
+		      - PLOTPCA
+		      - PLOTCORREL
+		      - SUNSETPLOTPEAK
+		      - TORNADOPLOTGENES
