@@ -2,9 +2,9 @@
 
 nextflow.enable.dsl = 2
 
-params.input = './testAtac/*{R1,R2}*'
+params.input = ''
 params.genome = 'mm39'
-params.name = 'oh please work'
+params.name = 'JLABFLOW'
 
 
 include { ATACSEQ } from './modules/atacseq'
