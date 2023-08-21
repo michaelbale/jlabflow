@@ -12,7 +12,7 @@ dependencies:
  - bioconda::bedtools=2.31.0=hf5e1c6e_2
  - bioconda::deeptools=3.5.2=pyhdfd78af_1
  - bioconda::multiqc=1.15=pyhdfd78af_0
- - bioconda::bowtie2=2.5.1=py39he00c5e5_2
+ - bioconda::bowtie2=2.4.2=py39hc9c6fcd_2
  - bioconda::trim-galore=0.6.10=hdfd78af_0
  - bioconda::genrich=0.6.1=he4a0461_4
  - conda-forge::r-base=4.3.0=hfabd6f2_3
