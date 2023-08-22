@@ -4,6 +4,7 @@ include { GENRICH as GENRICHREP } from './peaks/genrich'
 include { FRIP } from './peaks/frip'
 include { FRIP as FRIPALL } from './peaks/frip'
 include { NAMESORT } from './peaks/namesort'
+include { COLLECTFRIP } from './peaks/processfrip'
 
 
 workflow CALLPEAKS {
@@ -22,7 +23,7 @@ workflow CALLPEAKS {
   
   GENRICH( NAMESORT.out, 'Genrich_indPeaks' )
   FRIP( GENRICH.out )
-//  PROCESSFRIP( FRIP.out.collect(), 'Genrich_indPeaks' )
+  COLLECTFRIP( 'individual', 'Genrich_indPeaks', FRIP.out.collect() )
   if(params.callConsensus){
     forGREP = NAMESORT.out.map{ arr -> tuple(getGroupID(arr[0]), arr[1]) }.groupTuple()
     GENRICHREP( forGREP, 'results' )
