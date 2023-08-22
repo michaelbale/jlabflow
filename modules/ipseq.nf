@@ -42,6 +42,8 @@ workflow IPSEQ {
 	  RMDUPES( BOWTIE2MAP.out.init_bt2 )
 	  IDXSTATS( RMDUPES.out.dedup_bam )
 	  FINALFILTER( params.forbid, RMDUPES.out.dedup_bam )
+  	  DATAVIZ( BIGWIGRPGC.out.collect() , params.genesList, 'ip')
+
 	
 	emit:
 	  TRIM.out.trim_report

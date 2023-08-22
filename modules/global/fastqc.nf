@@ -8,7 +8,7 @@
  
 process FASTQC {
   tag "FASTQC on ${id}"
-  label 'small_mem'
+  label 'med_mem'
   
   
   input:

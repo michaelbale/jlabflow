@@ -22,7 +22,7 @@ workflow CALLPEAKS {
   
   GENRICH( NAMESORT.out, 'Genrich_indPeaks' )
   FRIP( GENRICH.out )
-  PROCESSFRIP( FRIP.out.collect(), 'Genrich_indPeaks' )
+//  PROCESSFRIP( FRIP.out.collect(), 'Genrich_indPeaks' )
   if(params.callConsensus){
     forGREP = NAMESORT.out.map{ arr -> tuple(getGroupID(arr[0]), arr[1]) }.groupTuple()
     GENRICHREP( forGREP, 'results' )

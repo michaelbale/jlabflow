@@ -50,7 +50,7 @@ workflow ATACSEQ {
 	  FINALFILTER( params.forbid, RMDUPES.out.dedup_bam )
 	  BIGWIGRPGC( FINALFILTER.out )
 	  if(params.callpeaks) {
-	    CALLPEAKSATAC( 'atac', FINALFILTER.out )
+	    CALLPEAKS( 'atac', FINALFILTER.out )
 	  }
 	  DATAVIZ( BIGWIGRPGC.out.collect() , params.genesList, 'atac')
 	
