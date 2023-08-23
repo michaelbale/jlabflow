@@ -1,5 +1,5 @@
 process COLLECTFRIP {
-  tag 'summarizing frip scores for ${type} peaks'
+  tag "summarizing frip scores for ${type} peaks"
   label 'small_mem'
   publishDir "${params.outdir}/", mode: 'move'
   
