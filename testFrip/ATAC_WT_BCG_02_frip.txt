@@ -1,0 +1,1 @@
+ATAC_WT_BCG_02_tmpSort.bam: [0.99982406]

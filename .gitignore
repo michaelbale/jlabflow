@@ -1,0 +1,7 @@
+.*log*
+.nextflow*
+.nextflow/*
+work/*
+testAtac/*
+*pdf
+modules/*txt
