@@ -9,7 +9,8 @@ process GENRICH {
   val(dir)
   
   output:
-  tuple val(id), path(bam), path("${id}_genrich.narrowPeak")
+  tuple val(id), path(bam), path("${id}_genrich.narrowPeak"), emit: peak_tuples
+  path("${id}_genrich.narrowPeak"), emit: peak_files
   
   script:
   def myOpts = bam.join(",")
