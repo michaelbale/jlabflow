@@ -5,7 +5,7 @@ include { FRIP } from './peaks/frip'
 include { FRIP as FRIPALL } from './peaks/frip'
 include { NAMESORT } from './peaks/namesort'
 include { COLLECTFRIP } from './peaks/processfrip'
-include { SUMMARIZEGENOMICLOCALIZATION } from './peaks/summarizepeaks'
+//include { SUMMARIZEGENOMICLOCALIZATION } from './peaks/summarizepeaks'
 
 
 workflow CALLPEAKS {
