@@ -24,7 +24,7 @@ workflow CALLPEAKS {
   
   GENRICH( NAMESORT.out, 'Genrich_indPeaks' )
   FRIP( GENRICH.out.peak_tuples )
-  SUMMARIZEGENOMICLOCALIZATION( GENRICH.out.peak_files.collect().toSortedList() )
+//  SUMMARIZEGENOMICLOCALIZATION( GENRICH.out.peak_files.collect().toSortedList() )
   COLLECTFRIP( 'individual', 'Genrich_indPeaks', FRIP.out.collect() )
   if(params.callConsensus){
     forGREP = NAMESORT.out.map{ arr -> tuple(getGroupID(arr[0]), arr[1]) }.groupTuple()
