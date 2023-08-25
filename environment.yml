@@ -33,5 +33,10 @@ dependencies:
   - conda-forge::r-optparse=1.7.3=r42hc72bb7e_1
   - conda-forge::r-reshape2=1.4.4=r42h7525677_2
   - conda-forge::r-scales=1.2.1=r42hc72bb7e_1
+  - conda-forge::r-magrittr=2.0.3=r42h57805ef_2
   - bioconda::genrich=0.6.1=he4a0461_4
   - bioconda::chip-r=1.2.0=pyh3252c3a_0
+  - bioconda::bioconductor-rtracklayer=1.58.0=r42h171f361_1
+  - bioconda::bioconductor-genomicfeatures=1.50.2=r42hdfd78af_0
+  - bioconda::bioconductor-chippeakanno=3.32.0=r42hdfd78af_0
+  - bioconda::bioconductor-genomicranges=1.50.0=r42ha9d7317_1

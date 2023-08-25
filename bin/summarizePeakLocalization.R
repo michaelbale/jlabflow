@@ -27,25 +27,51 @@ option_list <- list(
 opt_parser <- optparse::OptionParser(option_list=option_list)
 opts <- optparse::parse_args(opt_parser)
 
-peakFiles <- unlist(strsplit(opts$peaks,","))
-labels <- sub('\\.narrowPeak$', '', peakFiles)
-tmpDim <- labels[1] %>% strsplit(., '_') %>% unlist %>% length
-labels %<>% strsplit(., "_") %>% lapply(., function(x) paste0(x[1:tmpDim-1], collapse=".")) %>% unlist
-testDim <- labels[1] %>% strsplit(., '/') %>% unlist %>% length
-labels %<>% strsplit(., '/') %>% lapply(., '[[', testDim) %>% unlist
+peakFiles.list <- opts$peaks %>% 
+  strsplit(., ",") %>%
+  unlist %>%
+  split(., ceiling(seq_along(.) / 5))
+
+labels <- lapply(peakFiles.list, function(x) sub('\\.narrowPeak$', '', x))
+
+tmpDim <- labels[[1]][1] %>%
+  strsplit(., '_') %>%
+  unlist %>%
+  length()
+
+labels %<>% lapply(
+  function(x) strsplit(x, "_") %>%
+    lapply(.,
+           function(y) paste0(y[1:tmpDim-1], collapse=".")
+           ) %>% unlist
+)
+
+testDim <- labels[[1]][1] %>%
+  strsplit(., '/') %>%
+  unlist %>%
+  length
+
+labels %<>% lapply(
+  function(x) strsplit(x, '/') %>%
+    lapply(., '[[', testDim) %>%
+    unlist
+)
 
 extraCols_narrowPeak <- c(signalValue = "numeric", pValue = "numeric",
                           qValue = "numeric", peak = "integer")
-myGR.list <- GRangesList(
-  lapply(
-    peakFiles,
+myGR.lol <- lapply(
+  peakFiles.list, function(x) GRangesList(
+    lapply(
+    x,
     import,
     format = "BED",
     extraCols = extraCols_narrowPeak
     )
   )
-names(myGR.list) <- labels
-
+)
+for(i in 1:length(labels)){
+  names(myGR.lol[[i]]) <- labels[[i]]
+}
 
 myTxDb <- suppressMessages(GenomicFeatures::makeTxDbFromGFF(opts$annotations))
 
@@ -55,21 +81,21 @@ genomicColors <- c(promoter = "#C40D00", geneDownstream = "#D55E00", geneBody = 
                    CDS = "#0033BF", otherExon = "#009E73", undefined = "#FFFFFF")
 
 
-ChIPpeakAnno::genomicElementDistribution(
-  peaks = myGR.list,  
+lapply(myGR.lol, function(x) ChIPpeakAnno::genomicElementDistribution(
+  peaks = x,  
   TxDb = myTxDb, 
   promoterRegion = c(upstream = 500, downstream = 200),
   labelColors = genomicColors, plot = F
-  )$plot -> myPlot
+  )$plot) -> myPlot.list
 
-myPlot <- myPlot +
-  ggplot2::theme_classic(base_size = 16) +
-  ggplot2::labs(x = 'Dataset', y = 'Percentage')
-
-ggplot2::ggsave(
-  paste0(opts$fh, '.', opts$fout),
-  plot = myPlot,
-  width = 17.58,
-  height = 7.94,
-  units = 'in'
+myPlot.list %<>% lapply(
+  function(x) x + ggplot2::theme_classic(base_size = 16)+
+    ggplot2::labs(x = 'Dataset', y = 'Percentage')
 )
+
+pdf(
+  paste0(opts$fh, '.pdf'), width = 17.58, height = 7.94
+)
+
+for(p in myPlot.list) { print(p) }
+dev.off()
