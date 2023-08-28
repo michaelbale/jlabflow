@@ -1,5 +1,5 @@
 process MULTIBWSUMMARY{
-  tag 'Creating ctMat from $params.name with $regions'
+  tag "Creating ctMat from $params.name with $regions"
   label 'big_mem'
   
   input:

@@ -1,5 +1,5 @@
 process TORNADO {
-  tag 'Creating Tornado plot with ${regions}'
+  tag "Creating Tornado plot with ${regions}"
   label 'big_mem'
   publishDir "${params.outdir}/${dir}", mode: 'move'
   

@@ -74,7 +74,7 @@ def main(argv):
     
     with open(of, 'w') as f:
       for key, value in frips.items():
-        f.write('%s:\t%.2f\n' % (key, *value))
+        f.write('%s\t%.2f\n' % (key, *value))
     f.close()
 
 

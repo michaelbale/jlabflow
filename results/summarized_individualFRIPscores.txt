@@ -1,5 +1,0 @@
-Sample:	fRiP
-ATAC_WT_Untreated_02_tmpSort.bam:	[0.99976822]
-ATAC_WT_Untreated_01_tmpSort.bam:	[0.99988431]
-ATAC_WT_BCG_01_tmpSort.bam:	[0.99994171]
-ATAC_WT_BCG_02_tmpSort.bam:	[0.99982406]

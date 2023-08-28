@@ -1,7 +1,7 @@
 process SUMMARIZEGENOMICLOCALIZATION {
   tag "Creating Peak localization with ${params.genome}"
   label 'small_mem'
-  publishDir "${params.outdir}/callpeaks"
+  publishDir "${params.outdir}/callpeaks", mode: 'copy'
 
   input:
   path(peaks)
