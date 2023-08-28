@@ -1,11 +1,10 @@
 process COLLECTFRIP {
   tag "summarizing frip scores for ${type} peaks"
   label 'small_mem'
-  publishDir "${params.outdir}/", mode: 'move'
+  publishDir "${params.outdir}/callpeaks", mode: 'move'
   
   input:
   val(type)
-  val(dir)
   path(friplogs)
   
   output:
@@ -13,7 +12,7 @@ process COLLECTFRIP {
   
   script:
   """
-  echo -e "Sample:\tfRiP" > summarized_${type}FRIPscores.txt
+  echo -e "Sample\tfRiP" > summarized_${type}FRIPscores.txt
   cat $friplogs >> summarized_${type}FRIPscores.txt
   """
 }

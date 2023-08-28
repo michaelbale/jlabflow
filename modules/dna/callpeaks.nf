@@ -5,7 +5,7 @@ include { FRIP } from './peaks/frip'
 include { FRIP as FRIPALL } from './peaks/frip'
 include { NAMESORT } from './peaks/namesort'
 include { COLLECTFRIP } from './peaks/processfrip'
-//include { SUMMARIZEGENOMICLOCALIZATION } from './peaks/summarizepeaks'
+include { SUMMARIZEGENOMICLOCALIZATION } from './peaks/summarizepeaks'
 
 
 workflow CALLPEAKS {
@@ -24,8 +24,8 @@ workflow CALLPEAKS {
   
   GENRICH( NAMESORT.out, 'Genrich_indPeaks' )
   FRIP( GENRICH.out.peak_tuples )
-//  SUMMARIZEGENOMICLOCALIZATION( GENRICH.out.peak_files.collect().toSortedList() )
-  COLLECTFRIP( 'individual', 'Genrich_indPeaks', FRIP.out.collect() )
+  SUMMARIZEGENOMICLOCALIZATION( GENRICH.out.peak_files.collect(), params.annotations )
+  COLLECTFRIP( 'individual', FRIP.out.collect() )
   if(params.callConsensus){
     forGREP = NAMESORT.out.map{ arr -> tuple(getGroupID(arr[0]), arr[1]) }.groupTuple()
     GENRICHREP( forGREP, 'results' )
@@ -33,7 +33,3 @@ workflow CALLPEAKS {
   }
   
 }
-
-
-
-  

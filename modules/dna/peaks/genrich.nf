@@ -1,7 +1,7 @@
 process GENRICH {
   tag "calling peaks using Genrich on ${id}"
   label 'med_mem'
-  publishDir "$params.outdir/$dir", pattern: '*.narrowPeak', mode: 'copy'
+  publishDir "$params.outdir/callpeaks/$dir", pattern: '*.narrowPeak', mode: 'copy'
   
   
   input:

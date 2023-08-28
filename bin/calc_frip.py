@@ -18,7 +18,7 @@ def calcFrip(bamFiles, peakFile, cpus = 1):
     pysam.AlignmentFile(i).mapped for i in bamFiles
   ]
   
-  fRiP = dict(zip(bamFiles, [ i/j for i,j in zip(myRiP,myMapped) ]))
+  fRiP = dict(zip(bamFiles, [ i/j*100 for i,j in zip(myRiP,myMapped) ]))
   
   return(fRiP)
   
@@ -74,7 +74,7 @@ def main(argv):
     
     with open(of, 'w') as f:
       for key, value in frips.items():
-        f.write('%s:\t%s\n' % (key, value))
+        f.write('%s:\t%.2f\n' % (key, *value))
     f.close()
 
 

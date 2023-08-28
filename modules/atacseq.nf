@@ -5,6 +5,7 @@ params.bt2_index = params.genome ? params.genomes[ params.genome ].bt2Index ?: f
 params.forbid = params.genome ? params.genomes[ params.genome ].forbid ?: false : false
 params.rpgc = params.genome ? params.genomes[ params.genome ].rpgc ?: false : false
 params.genesList = params.genome ? params.genomes[ params.genome ].genesList ?: false : false
+params.annotations = params.genome ? params.genomes[ params.genome ].annotations?: false : false
 
 
 include { IDXSTATS } from './global/idxstats'
