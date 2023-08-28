@@ -28,8 +28,9 @@ workflow CALLPEAKS {
   COLLECTFRIP( 'individual', FRIP.out.collect() )
   if(params.callConsensus){
     forGREP = NAMESORT.out.map{ arr -> tuple(getGroupID(arr[0]), arr[1]) }.groupTuple()
-    GENRICHREP( forGREP, 'results' )
-	FRIPALL( GENRICHREP.out, true )
+	forGREP.view()
+   // GENRICHREP( forGREP, 'results' )
+	// FRIPALL( GENRICHREP.out, true )
   }
   
 }

@@ -1,5 +1,5 @@
 Sample	fRiP
-ATAC_WT_BCG_02_tmpSort.bam:	99.98
-ATAC_WT_Untreated_02_tmpSort.bam:	99.98
-ATAC_WT_Untreated_01_tmpSort.bam:	99.99
-ATAC_WT_BCG_01_tmpSort.bam:	99.99
+ATAC_WT_Untreated_02_tmpSort.bam	99.98
+ATAC_WT_Untreated_01_tmpSort.bam	99.99
+ATAC_WT_BCG_02_tmpSort.bam	99.98
+ATAC_WT_BCG_01_tmpSort.bam	99.99
