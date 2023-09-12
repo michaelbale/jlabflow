@@ -1,8 +1,10 @@
-//Genome specific
 params.genome = ''
 params.genomes = []
 params.bt2_index = params.genome ? params.genomes[ params.genome ].bt2Index ?: false : false
 params.forbid = params.genome ? params.genomes[ params.genome ].forbid ?: false : false
+params.rpgc = params.genome ? params.genomes[ params.genome ].rpgc ?: false : false
+params.genesList = params.genome ? params.genomes[ params.genome ].genesList ?: false : false
+params.annotations = params.genome ? params.genomes[ params.genome ].annotations?: false : false
 
 include { IDXSTATS } from './global/idxstats'
 include { TRIM } from './global/trim'
@@ -11,6 +13,8 @@ include { FASTQC } from './global/fastqc'
 include { BOWTIE2MAP } from './dna/bt2map'
 include { RMDUPES } from './dna/rmdupes'
 include { FINALFILTER } from './dna/finalfilter'
+include { BIGWIGRPGC } from './dna/bigwigbasic'
+include { DATAVIZ } from './dataviz'
 
 def pipelineInfo() {
 log.info """\
@@ -42,6 +46,7 @@ workflow IPSEQ {
 	  RMDUPES( BOWTIE2MAP.out.init_bt2 )
 	  IDXSTATS( RMDUPES.out.dedup_bam )
 	  FINALFILTER( params.forbid, RMDUPES.out.dedup_bam )
+	  BIGWIGRPGC( FINALFILTER.out )
   	  DATAVIZ( BIGWIGRPGC.out.collect() , params.genesList, 'ip')
 
 	
