@@ -8,29 +8,22 @@
  * Feeds: Main Workflow Selected
  */
 
-      process CATLANES {
-	    tag "Concatenating lanes into $params.workDir"
-		publishDir "$params.workDir/$sampleID", mode: 'copy', pattern: "*.gz"
-		label 'small_mem'
-		
-		input:
-		tuple val(sampleID), path(reads)
-		val(seqType)
-		
-		output:
-		tuple val(sampleID), path("${sampleID}_*_init.fq.gz"), emit: reads_ch
-		
-		script:
-		if( seqType == 'SE')
-			"""
-            echo $sampleID
-            echo $reads
-            echo $seqType
-			cat ${reads} > ${sampleID}_R1_init.fq.gz
-			"""
-		else if( seqType == 'PE' )
-			"""
-			cat ${reads[0]} > ${sampleID}_R1_init.fq.gz
-			cat ${reads[1]} > ${sampleID}_R2_init.fq.gz
-			"""
-	  }
+process CATLANES {
+    tag "Concatenating lanes for ${sampleID}"
+    publishDir "${params.workDir}/${sampleID}", mode: 'copy', pattern: "*.gz"
+
+    input:
+    tuple val(sampleID), path(reads1), path(reads2) // reads2 can be an empty list for SE
+
+    output:
+    tuple val(sampleID), path("${sampleID}_*_combined.fq.gz"), optional: true, emit: combinedReads
+
+    script:
+    def r2Exists = (reads2 && !reads2.isEmpty()) ? true : false
+    """
+    zcat ${reads1.join(' ')} > ${sampleID}_R1_combined.fq
+	gzip ${sampleID}_R1_combined.fq
+    ${r2Exists ? "zcat ${reads2.join(' ')} > ${sampleID}_R2_combined.fq; gzip ${sampleID}_R2_combined.fq" : ''}
+    """
+}
+
