@@ -8,3 +8,5 @@ modules/*txt
 testFrip/*
 test*/*
 my*/*
+results/*
+tmp*/*
