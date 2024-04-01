@@ -40,6 +40,7 @@ workflow {
 		  return tuple(sampleName, reads1, (isPE ? reads2 : []))
 		}
 		.set { initFq }
+		initFq.view()
 		reads = CATLANES( initFq )
     } else if (params.SE) {
       reads = Channel
