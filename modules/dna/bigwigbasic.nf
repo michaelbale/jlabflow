@@ -18,12 +18,13 @@ process BIGWIGRPGC{
 	path("${sampleID}_normTo1x.bw")
 
 	script:
+	def extendReads = params.SE ? '' : '--extendReads'
 	"""
 	samtools index $finalBam
 	bamCoverage -p $task.cpus \
 	  --bam ${finalBam} \
 	  -o ${sampleID}_normTo1x.bw \
-	  -bs 10 --extendReads --smoothLength 50 \
+	  -bs 10 ${extendReads} --smoothLength 50 \
 	  --normalizeUsing RPGC --effectiveGenomeSize ${params.rpgc} \
 	  --skipNonCoveredRegions 
 	"""

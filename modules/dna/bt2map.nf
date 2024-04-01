@@ -22,6 +22,8 @@ process BOWTIE2MAP {
   tuple val(id), file("${id}_iSort.bam"), file("${id}_iSort.bam.bai"), emit: init_bt2
   
   script:
+  def inputArgs = params.SE ? "-U $reads" : "-1 ${reads[0]} -2 ${reads[1]}"
+  def dovetail = (params.cnr && !params.SE) ? "--dovetail" : ''
   """
   bowtie2 \
     -p $task.cpus \
@@ -29,7 +31,8 @@ process BOWTIE2MAP {
     --no-mixed --no-unal --no-discordant \
     --local --very-sensitive-local \
     -X 1000 -k 4 --mm \
-    -1 ${reads[0]} -2 ${reads[1]} 2> ${id}_bt2.log  | samtools view -bS -q 30 - > ${id}_init.bam
+	$dovetail \
+	$inputArgs 2> ${id}_bt2.log  | samtools view -bS -q 30 - > ${id}_init.bam
   samtools sort -@ $task.cpus ${id}_init.bam > ${id}_iSort.bam
   samtools index ${id}_iSort.bam
   """

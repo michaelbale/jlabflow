@@ -21,7 +21,8 @@ process TRIM {
   tuple val(id), path("${id}*.fq.gz"), emit: trimmed_reads
 
   script:
+  def isPaired = params.SE ? '' : '--paired'
   """
-  trim_galore --paired --basename ${id} -j $task.cpus ${reads[0]} ${reads[1]}
+  trim_galore $isPaired --basename ${id} -j $task.cpus ${reads.join(' ')}
   """
 }

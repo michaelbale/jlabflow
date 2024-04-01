@@ -20,6 +20,7 @@ process FINALFILTER {
    tuple val(id), file("${id}_final.bam"), emit: final_bams
 
    script:
+   def filterARGS = params.SE ? '' : '-f 3 -F 8'
    """
    samtools index ${bam}
    export CHROMOSOMES=\$(samtools view -H ${bam} \
@@ -29,10 +30,11 @@ process FINALFILTER {
 	 grep -v -e _ -e chrM -e 'VN:' | \
 	 sed 's/SN://' | \
 	 xargs echo)
-   samtools view -b -h -f 3 -F 4 -F 8 -F 256 -F 1024 -F 2048 -q 30 \
+   samtools view -b -h $filterARGS -F 3332 -q 30 \
      ${bam} \$CHROMOSOMES > tmp.bam
-   bedtools subtract -A -a tmp.bam -b ${forbid} | \
-     samtools sort -@ $task.cpus - > ${id}_final.bam
+   ${params.FL 
+     ? "bedtools subtract -A -a tmp.bam -b ${forbid} | \
+	   samtools sort -@ $task.cpus - > ${id}_final.bam" 
+	 : "samtools sort -@ $task.cpus -o ${id}_final.bam tmp.bam"}
    """
-
 }
