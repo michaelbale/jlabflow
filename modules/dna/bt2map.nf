@@ -23,7 +23,7 @@ process BOWTIE2MAP {
   
   script:
   def inputArgs = params.SE ? "-U $reads" : "-1 ${reads[0]} -2 ${reads[1]}"
-  def dovetail = (params.cnr && !params.SE) ? "--dovetail" : ''
+  def dovetail = (params.mode == 'cnr' && !params.SE) ? "--dovetail" : ''
   """
   bowtie2 \
     -p $task.cpus \
