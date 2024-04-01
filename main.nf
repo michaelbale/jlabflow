@@ -33,7 +33,7 @@ workflow {
 		  def isPE = !params.SE 
 		  return tuple(sampleName, file, isPE)
 		}
-		.groupTuple(by: 0, size: 3) 
+		.groupTuple(by: 0) 
 		.map { sampleName, files, isPE ->
 		  def reads1 = files.findAll { it.baseName.contains('_R1_') }
 		  def reads2 = isPE ? files.findAll { it.baseName.contains('_R2_') } : []
