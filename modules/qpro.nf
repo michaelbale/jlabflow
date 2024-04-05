@@ -15,7 +15,7 @@ include { FINALFILTER } from './dna/finalfilter'
 include { BIGWIGSTRANDED } from './qpro/bigwigstranded'
 include { DEGREDATION } from './qpro/degradation'
 include { UMIDUPES } from './qpro/umidupes'
-include { DATAVIZ as DATAVIZPLUS, DATAVIZ as DATAVIZMINUS } from './dataviz'
+//include { DATAVIZ as DATAVIZPLUS, DATAVIZ as DATAVIZMINUS } from './dataviz'
 
 
 def pipelineInfo() {
