@@ -46,7 +46,7 @@ workflow QPRO {
 	  FASTQC( TRIM.out.trimmed_reads )
 	  UMIDUPES( BOWTIE2MAP.out.init_bt2 )
 	  IDXSTATS( UMIDUPES.out.dedup_bam )
-	  FINALFILTER( params.forbid, RMDUPES.out.dedup_bam )
+	  FINALFILTER( params.forbid, UMIDUPES.out.dedup_bam )
 	  BIGWIGSTRANDED( FINALFILTER.out.final_bams, 'plus' )
 	  BIGWIGSTRANDED( FINALFILTER.out.final_bams, 'minus' )
 	  //QPROMATRICES( //mixed bigwigs )
