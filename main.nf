@@ -26,25 +26,25 @@ workflow {
   
   main:
 	
-	reads = PREPAREINPUT( params.input )
+	PREPAREINPUT( params.input )
 	
     if(params.mode == 'atac'){
 	  if( params.SE ) {
 	    error "ERROR: params mode == atac and SE == TRUE are incompatible; ATACSEQ should always be PE seq"
 	  }
-	  ATACSEQ( reads )
+	  ATACSEQ( PREPAREINPUT.out )
 	  logs = ATACSEQ.out
 	} else if( params.mode == 'ip' || params.mode == 'cnr' || params.mode == 'cnt') {
 	  if(params.mode == 'cnt' && params.SE) { 
 	    error "ERROR: params mode == cnt and SE == TRUE are incompatible; cnt-IPSEQ should always be PE seq" 
 	  }
-      IPSEQ( reads )
+      IPSEQ( PREPAREINPUT.out )
 	  logs = IPSEQ.out	
 	} else if (params.mode == 'rna') {
 	  print("Not yet supported")
 	} else if(params.mode == 'qpro') {
 	  if( !params.SE ) { error "ERROR: qPRO must be SE - don't make me do more work plz (:" }
-	  QPRO( reads )
+	  QPRO( PREPAREINPUT.out )
 	}
 	
   MULTIQC( logs )
