@@ -13,7 +13,7 @@ process FINALFILTER {
    publishDir "$params.outdir/finalBam", mode: 'copy', pattern: "${id}_final.bam"
    
    input:
-   path(forbid)
+   path(filterList)
    tuple val(id), path(bam)
     
    output:
@@ -43,7 +43,7 @@ process FINALFILTER {
    samtools view -b -h $filterARGS -F 3332 -q 30 \
      ${bam} \$CHROMOSOMES > tmp.bam
    $filterCommand
-   $filterOUT
+   $filterOur
    echo ${id} "\$(samtools view -@ $task.cpus -c ${id}_final.bam)" > ${id}_finalCount.txt
    """
 }
