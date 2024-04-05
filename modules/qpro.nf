@@ -33,7 +33,7 @@ log.info """\
         """
          .stripIndent()
 }
-workflow ATACSEQ {
+workflow QPRO {
   
     take:
 	  data
@@ -49,22 +49,22 @@ workflow ATACSEQ {
 	  FINALFILTER( params.forbid, RMDUPES.out.dedup_bam )
 	  BIGWIGSTRANDED( FINALFILTER.out.final_bams, 'plus' )
 	  BIGWIGSTRANDED( FINALFILTER.out.final_bams, 'minus' )
-	  QPROMATRICES( //mixed bigwigs )
-	  DATAVIZPLUS( BIGWIGRPGC.out.collect() , params.plusGenes , 'qpro' )
-	  DATAVIZMINUS( BIGWIGRPGC.out.collect() , params.minusGenes , 'qpro' )
-	  COLLECTQCMETRICS(
-        DEGRADATION.out.degradation_logs.collect(),
-		QPROMATRICES.out.pause_log.collect(),
-		QPROMATRICES.out.intronExon_log.collect(),
-		FINALFILTER.out.forbid_list_count.collect(),
-		FINALFILTER.out.final_count.collect()		
-	  )
+	  //QPROMATRICES( //mixed bigwigs )
+	  //DATAVIZPLUS( BIGWIGRPGC.out.collect() , params.plusGenes , 'qpro' )
+	  //DATAVIZMINUS( BIGWIGRPGC.out.collect() , params.minusGenes , 'qpro' )
+	  //COLLECTQCMETRICS(
+        //DEGRADATION.out.degradation_logs.collect(),
+	//	QPROMATRICES.out.pause_log.collect(),
+	//	QPROMATRICES.out.intronExon_log.collect(),
+	//	FINALFILTER.out.forbid_list_count.collect(),
+	//	FINALFILTER.out.final_count.collect()		
+	  //)
 	
 	emit:
 	  TRIM.out.trim_report
 	    .mix( BOWTIE2MAP.out.bt2_logs )
 	    .mix( FASTQC.out )
-	    .mix( RMDUPES.out.dedup_log )
+	    .mix( UMIDUPES.out.dedup_log )
 	    .mix( IDXSTATS.out )
 	    .collect()
 
