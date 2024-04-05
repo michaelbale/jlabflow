@@ -18,9 +18,19 @@ process FINALFILTER {
     
    output:
    tuple val(id), file("${id}_final.bam"), emit: final_bams
+   file("${id}_filterCount.txt"), optional: true, emit: forbid_list_count
+   file("${id}_finalCount.txt"), emit: final_count
 
    script:
    def filterARGS = params.SE ? '' : '-f 3 -F 8'
+   def filterCommand = params.doFil
+     ? "echo $id \$(bedtools intersect -a $bam -b ${filterList} -ubam -u | samtools view -c -@ task.cpus) > ${id}_filterCount.txt"
+	 : ""
+   def filterOut = params.doFil 
+	 ? "bedtools subtract -A -a tmp.bam -b ${filterList} | \
+	   samtools sort -@ $task.cpus - > ${id}_final.bam"
+	 : "samtools sort -@ $task.cpus -o ${id}_final.bam tmp.bam"
+
    """
    samtools index ${bam}
    export CHROMOSOMES=\$(samtools view -H ${bam} \
@@ -32,9 +42,8 @@ process FINALFILTER {
 	 xargs echo)
    samtools view -b -h $filterARGS -F 3332 -q 30 \
      ${bam} \$CHROMOSOMES > tmp.bam
-   ${params.FL 
-     ? "bedtools subtract -A -a tmp.bam -b ${forbid} | \
-	   samtools sort -@ $task.cpus - > ${id}_final.bam" 
-	 : "samtools sort -@ $task.cpus -o ${id}_final.bam tmp.bam"}
+   $filterCommand
+   $filterOUT
+   echo ${id} "\$(samtools view -@ $task.cpus -c ${id}_final.bam)" > ${id}_finalCount.txt
    """
 }

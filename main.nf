@@ -14,8 +14,8 @@ if(params.help || params.mode == '') {
 
 include { ATACSEQ } from './modules/atacseq'
 include { IPSEQ } from './modules/ipseq'
-//include { QPRO } from './modules/qpro'
-include { CATLANES } from './modules/global/catlanes'
+include { QPRO } from './modules/qpro'
+include { PREPAREINPUT } from './modules/prepareinput'
 include { MULTIQC } from './modules/global/multiqc'
 
 
@@ -25,34 +25,9 @@ workflow {
   
   
   main:
-	if(params.catlanes){
-	  Channel
-	    .fromPath(params.input)
-		.map { file ->
-		  def sampleName = file.baseName.split('_')[0]
-		  def isPE = !params.SE 
-		  return tuple(sampleName, file, isPE)
-		}
-		.groupTuple(by: 0) 
-		.map { sampleName, files, isPE ->
-		  def reads1 = files.findAll { it.baseName.contains('_R1_') }
-		  def reads2 = isPE ? files.findAll { it.baseName.contains('_R2_') } : []
-		  return tuple(sampleName, reads1, (isPE ? reads2 : []))
-		}
-		.set { initFq }
-		reads = CATLANES( initFq )
-    } else if (params.SE) {
-      reads = Channel
-        .fromPath(params.input)
-        .map {
-          file ->
-            def sampleName = file.baseName.split('_')[0]
-            return [sampleName, file]
-        }
-    } else {
-        reads = Channel.fromFilePairs(params.input, checkIfExists: true)
-    }	
-	print(params.mode)
+	
+	reads = PREPAREINPUT( params.input )
+	
     if(params.mode == 'atac'){
 	  if( params.SE ) {
 	    error "ERROR: params mode == atac and SE == TRUE are incompatible; ATACSEQ should always be PE seq"
@@ -68,7 +43,8 @@ workflow {
 	} else if (params.mode == 'rna') {
 	  print("Not yet supported")
 	} else if(params.mode == 'qpro') {
-	  print('Not yet supported')
+	  if( !params.SE ) { error "ERROR: qPRO must be SE - don't make me do more work plz (:" }
+	  QPRO( reads )
 	}
 	
   MULTIQC( logs )

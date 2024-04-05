@@ -19,6 +19,7 @@ process TRIM {
   output:
   path("${id}*.txt"), emit: trim_report
   tuple val(id), path("${id}*.fq.gz"), emit: trimmed_reads
+  tuple val(id), path("${id}*.txt"), emit: tupled_report
 
   script:
   def isPaired = params.SE ? '' : '--paired'
