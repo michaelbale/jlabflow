@@ -41,6 +41,7 @@ workflow QPRO {
 	main:
 	  pipelineInfo()
 	  TRIM( data )
+          TRIM.out.trimmed_reads.view()
 	  DEGRADATION( TRIM.out.tupled_report )
 	  BOWTIE2MAP( params.bt2_index, TRIM.out.trimmed_reads )
 	  FASTQC( TRIM.out.trimmed_reads )
