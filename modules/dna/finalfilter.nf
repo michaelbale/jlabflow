@@ -43,7 +43,7 @@ process FINALFILTER {
    samtools view -b -h $filterARGS -F 3332 -q 30 \
      ${bam} \$CHROMOSOMES > tmp.bam
    $filterCommand
-   $filterOur
+   $filterOut
    echo ${id} "\$(samtools view -@ $task.cpus -c ${id}_final.bam)" > ${id}_finalCount.txt
    """
 }
