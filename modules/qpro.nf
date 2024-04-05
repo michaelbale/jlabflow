@@ -12,7 +12,8 @@ include { TRIM } from './global/trim'
 include { FASTQC } from './global/fastqc'
 include { BOWTIE2MAP } from './dna/bt2map'
 include { FINALFILTER } from './dna/finalfilter'
-include { BIGWIGSTRANDED } from './qpro/bigwigstranded'
+include { BIGWIGSTRANDED as BIGWIGSTRANDEDPLUS } from './qpro/bigwigstranded'
+include { BIGWIGSTRANDED as BIGWIGSTRANDEDMINUS } from './qpro/bigwigstranded'
 include { DEGRADATION } from './qpro/degradation'
 include { UMIDUPES } from './qpro/umidupes'
 //include { DATAVIZ as DATAVIZPLUS, DATAVIZ as DATAVIZMINUS } from './dataviz'
@@ -48,8 +49,8 @@ workflow QPRO {
 	  UMIDUPES( BOWTIE2MAP.out.init_bt2 )
 	  IDXSTATS( UMIDUPES.out.dedup_bam )
 	  FINALFILTER( params.forbid, UMIDUPES.out.dedup_bam )
-	  BIGWIGSTRANDED( FINALFILTER.out.final_bams, 'plus' )
-	  BIGWIGSTRANDED( FINALFILTER.out.final_bams, 'minus' )
+	  BIGWIGSTRANDEDPLUS( FINALFILTER.out.final_bams, 'plus' )
+	  BIGWIGSTRANDEDPLUS( FINALFILTER.out.final_bams, 'minus' )
 	  //QPROMATRICES( //mixed bigwigs )
 	  //DATAVIZPLUS( BIGWIGRPGC.out.collect() , params.plusGenes , 'qpro' )
 	  //DATAVIZMINUS( BIGWIGRPGC.out.collect() , params.minusGenes , 'qpro' )
