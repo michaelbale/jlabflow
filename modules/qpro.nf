@@ -13,7 +13,7 @@ include { FASTQC } from './global/fastqc'
 include { BOWTIE2MAP } from './dna/bt2map'
 include { FINALFILTER } from './dna/finalfilter'
 include { BIGWIGSTRANDED } from './qpro/bigwigstranded'
-include { DEGREDATION } from './qpro/degradation'
+include { DEGRADATION } from './qpro/degradation'
 include { UMIDUPES } from './qpro/umidupes'
 //include { DATAVIZ as DATAVIZPLUS, DATAVIZ as DATAVIZMINUS } from './dataviz'
 
