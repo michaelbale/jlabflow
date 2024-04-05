@@ -45,6 +45,7 @@ workflow {
 	} else if(params.mode == 'qpro') {
 	  if( !params.SE ) { error "ERROR: qPRO must be SE - don't make me do more work plz (:" }
 	  QPRO( PREPAREINPUT.out )
+          logs = QPRO.out
 	}
 	
   MULTIQC( logs )
