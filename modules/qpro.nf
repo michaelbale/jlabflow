@@ -50,7 +50,7 @@ workflow QPRO {
 	  IDXSTATS( UMIDUPES.out.dedup_bam )
 	  FINALFILTER( params.forbid, UMIDUPES.out.dedup_bam )
 	  BIGWIGSTRANDEDPLUS( FINALFILTER.out.final_bams, 'plus' )
-	  BIGWIGSTRANDEDPLUS( FINALFILTER.out.final_bams, 'minus' )
+	  BIGWIGSTRANDEDMINUS( FINALFILTER.out.final_bams, 'minus' )
 	  //QPROMATRICES( //mixed bigwigs )
 	  //DATAVIZPLUS( BIGWIGRPGC.out.collect() , params.plusGenes , 'qpro' )
 	  //DATAVIZMINUS( BIGWIGRPGC.out.collect() , params.minusGenes , 'qpro' )
