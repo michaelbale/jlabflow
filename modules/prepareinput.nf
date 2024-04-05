@@ -15,6 +15,8 @@ workflow PREPAREINPUT {
     input
   
   main:
+    
+    print("PREPPING INPUT")
     if(params.catlanes){
 	  Channel
 	    .fromPath(input)
@@ -40,7 +42,10 @@ workflow PREPAREINPUT {
             return [sampleName, file]
         }
     } else {
-        reads = Channel.fromFilePairs(input, checkIfExists: true)
+        reads = params.SE 
+          ? Channel.fromPath(input, checkIfExists: true) 
+          : Channel.fromFilePairs(input, checkIfExists: true)
+         
     }
 	
   emit:
