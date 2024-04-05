@@ -18,17 +18,16 @@ process FINALFILTER {
     
    output:
    tuple val(id), file("${id}_final.bam"), emit: final_bams
-   file("${id}_filterCount.txt"), optional: true, emit: forbid_list_count
-   file("${id}_finalCount.txt"), emit: final_count
+   path("${id}_filterCount.txt"), optional: true, emit: forbid_list_count
+   path("${id}_finalCount.txt"), emit: final_count
 
    script:
    def filterARGS = params.SE ? '' : '-f 3 -F 8'
    def filterCommand = params.doFil
      ? "echo $id \$(bedtools intersect -a $bam -b ${filterList} -ubam -u | samtools view -c -@ task.cpus) > ${id}_filterCount.txt"
-	 : ""
+     : ""
    def filterOut = params.doFil 
-	 ? "bedtools subtract -A -a tmp.bam -b ${filterList} | \
-	   samtools sort -@ $task.cpus - > ${id}_final.bam"
+	 ? "bedtools subtract -A -a tmp.bam -b ${filterList} | samtools sort -@ $task.cpus - > ${id}_final.bam"
 	 : "samtools sort -@ $task.cpus -o ${id}_final.bam tmp.bam"
 
    """
