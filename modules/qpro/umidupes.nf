@@ -8,7 +8,7 @@
  */
  
  
-process BIGWIGSTRANDED {
+process UMIDUPES {
   tag "Performing UMI-aware deduplication on ${id}"
   label 'med_mem'
   
