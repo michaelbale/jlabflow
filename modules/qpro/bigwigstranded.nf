@@ -19,7 +19,7 @@ process BIGWIGSTRANDED {
   val(strand)
   
   output:
-  tuple val(id), path(${id}_${strand}.bw), emit: stranded_bw
+  tuple val(id), path("${id}_${strand}.bw"), emit: stranded_bw
   
   script:
   def strandArg = (strand == 'plus') ? '--samFlagExclude' : '--samFlagInclude'
