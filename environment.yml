@@ -41,4 +41,4 @@ dependencies:
   - bioconda::bioconductor-chippeakanno=3.32.0=r42hdfd78af_0
   - bioconda::bioconductor-genomicranges=1.50.0=r42ha9d7317_1
   - conda-forge::r-data.table=1.15.2=r42h029312a_0
-  - bioconda::umi_tools=1.1.5=py310h4b81fae_1
+  - bioconda::umi_tools=1.1.5=py39h898dc92_1
