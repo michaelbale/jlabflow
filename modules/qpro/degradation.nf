@@ -17,13 +17,14 @@ process DEGRADATION {
 
 
   input:
-  tuple val(id), path(log)
+  path(logs)
 
   output:
   path("${id}_degradation.log"), emit: degradation_logs
 
   script:
+  def myLogs = logs.join(',')
   """
-  calcRNADegradation.R -r $log -o $id > ${id}_degradation.log
+  calcRNADegradation.R -r $myLogs > ${params.name}_degradation.txt
   """
 }
