@@ -27,7 +27,6 @@ workflow {
   main:
 	
 	PREPAREINPUT( params.input )
-        PREPAREINPUT.out.view()	
     if(params.mode == 'atac'){
 	  if( params.SE ) {
 	    error "ERROR: params mode == atac and SE == TRUE are incompatible; ATACSEQ should always be PE seq"
