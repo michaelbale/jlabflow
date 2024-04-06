@@ -6,13 +6,8 @@
  * Feeds: Collect QC Metrics script to output QC data-table
  */
  
-
-
-
-
-
 process DEGRADATION {
-  tag "Calculating degradation ratio for ${id}"
+  tag "Calculating degradation ratio for project: ${params.name}"
   label 'small_mem'
 
 
@@ -20,7 +15,7 @@ process DEGRADATION {
   path(logs)
 
   output:
-  path("${id}_degradation.log"), emit: degradation_logs
+  path("${params.name}_degradation.log"), emit: degradation_logs
 
   script:
   def myLogs = logs.join(',')
