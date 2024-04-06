@@ -20,6 +20,6 @@ process DEGRADATION {
   script:
   def myLogs = logs.join(',')
   """
-  calcRNADegradation.R -r $myLogs > ${params.name}_degradation.txt
+  calcRNADegradation.R -r $myLogs > ${params.name}_degradation.log
   """
 }
