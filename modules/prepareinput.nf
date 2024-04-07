@@ -27,6 +27,7 @@ workflow PREPAREINPUT {
 		}
 		.groupTuple(by: 0) 
 		.map { sampleName, files, isPE ->
+                  files.sort { it.name }
 		  def reads1 = files.findAll { it.baseName.contains('_R1_') }
 		  def reads2 = isPE ? files.findAll { it.baseName.contains('_R2_') } : []
 		  return tuple(sampleName, reads1, (isPE ? reads2 : []))
