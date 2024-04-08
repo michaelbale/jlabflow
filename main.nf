@@ -46,8 +46,9 @@ workflow {
 	  QPRO( PREPAREINPUT.out )
           logs = QPRO.out
 	}
-	
+  if(!params.skipMQC) {	
   MULTIQC( logs )
+  }
 }
 
 /* 
