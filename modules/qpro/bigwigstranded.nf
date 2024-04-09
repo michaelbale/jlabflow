@@ -27,7 +27,7 @@ process BIGWIGSTRANDED {
   samtools index -@ $task.cpus $bam
   bamCoverage -p $task.cpus \
     --bam $bam \
-	-o ${id}_${strand}.bw
+	-o ${id}_${strand}.bw \
 	-bs 1 --normalizeUsing none \
 	--Offset 1 \
 	$strandArg 16
