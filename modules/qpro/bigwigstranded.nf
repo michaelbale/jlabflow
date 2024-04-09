@@ -24,6 +24,7 @@ process BIGWIGSTRANDED {
   script:
   def strandArg = (strand == 'plus') ? '--samFlagExclude' : '--samFlagInclude'
   """
+  samtools index -@ $task.cpus $bam
   bamCoverage -p $task.cpus \
     --bam $bam \
 	-o ${id}_${strand}.bw
