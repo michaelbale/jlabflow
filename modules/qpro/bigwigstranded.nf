@@ -28,7 +28,7 @@ process BIGWIGSTRANDED {
   bamCoverage -p $task.cpus \
     --bam $bam \
 	-o ${id}_${strand}.bw \
-	-bs 1 --normalizeUsing none \
+	-bs 1 --normalizeUsing None \
 	--Offset 1 \
 	$strandArg 16
   """
