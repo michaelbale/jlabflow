@@ -17,7 +17,7 @@ process UMIDUPES {
   
   output:
   tuple val(id), path("${id}_rmDup.bam"), emit: dedup_bam
-  path("{id}_dedup.log"), emit: dedup_log
+  path("${id}_dedup.log"), emit: dedup_log
   
   script:
   """
