@@ -10,6 +10,7 @@ params.forbid = params.genome ? params.genomes[ params.genome ].forbid ?: false 
 include { IDXSTATS } from './global/idxstats'
 include { TRIM } from './global/trim'
 include { FASTQC } from './global/fastqc'
+include { EXTRACTUMI } from './qpro/extractumi'
 include { BOWTIE2MAP } from './dna/bt2map'
 include { FINALFILTER } from './dna/finalfilter'
 include { BIGWIGSTRANDED as BIGWIGSTRANDEDPLUS } from './qpro/bigwigstranded'
@@ -43,8 +44,9 @@ workflow QPRO {
 	  pipelineInfo()
 	  TRIM( data )
 	  DEGRADATION( TRIM.out.trim_report.collect() )
-	  BOWTIE2MAP( params.bt2_index, TRIM.out.trimmed_reads )
-	  FASTQC( TRIM.out.trimmed_reads )
+          EXTRACTUMI( TRIM.out.trimmed_reads )
+	  BOWTIE2MAP( params.bt2_index, EXTRACTUMI.out.umi_extract_reads )
+	  FASTQC( EXTRACTUMI.out.umi_extract_reads )
 	  UMIDUPES( BOWTIE2MAP.out.init_bt2 )
 	  IDXSTATS( UMIDUPES.out.dedup_bam )
 	  FINALFILTER( params.forbid, UMIDUPES.out.dedup_bam )
