@@ -22,13 +22,14 @@ process BIGWIGSTRANDED {
   tuple val(id), path("${id}_${strand}.bw"), emit: stranded_bw
   
   script:
-  def strandArg = (strand == 'plus') ? '--samFlagExclude' : '--samFlagInclude'
+  def strandArg = (strand == 'plus') ? '--samFlagInclude' : '--samFlagExclude'
   """
   samtools index -@ $task.cpus $bam
   bamCoverage -p $task.cpus \
     --bam $bam \
 	-o ${id}_${strand}.bw \
 	-bs 1 --normalizeUsing None \
+        --skipNAs \
 	--Offset 1 \
 	$strandArg 16
   """
