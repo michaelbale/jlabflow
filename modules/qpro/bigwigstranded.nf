@@ -22,7 +22,7 @@ process BIGWIGSTRANDED {
   tuple val(id), path("${id}_${strand}.bw"), emit: stranded_bw
   
   script:
-  def strandArg = (strand == 'plus') ? '--samFlagInclude' : '--samFlagExclude'
+  def strandArg = (strand == 'plus') ? '--samFlagExclude' : '--samFlagInclude'
   """
   samtools index -@ $task.cpus $bam
   bamCoverage -p $task.cpus \
