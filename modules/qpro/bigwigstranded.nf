@@ -19,10 +19,10 @@ process BIGWIGSTRANDED {
   val(strand)
   
   output:
-  tuple val(id), path("${id}_${strand}.bw"), emit: stranded_bw
+  tuple path("${id}_${strand}.bw"), emit: stranded_bw
   
   script:
-  def strandArg = (strand == 'plus') ? '--samFlagExclude' : '--samFlagInclude'
+  def strandArg = (strand == 'plus') ? 'forward' : 'reverse'
   """
   samtools index -@ $task.cpus $bam
   bamCoverage -p $task.cpus \
@@ -31,6 +31,6 @@ process BIGWIGSTRANDED {
 	-bs 1 --normalizeUsing None \
         --skipNAs \
 	--Offset 1 \
-	$strandArg 16
+	--filterRNAstrand $strandArg
   """
 }
