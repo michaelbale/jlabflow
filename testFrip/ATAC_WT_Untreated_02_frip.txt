@@ -1,1 +1,0 @@
-ATAC_WT_Untreated_02_tmpSort.bam:	[0.99976822]
