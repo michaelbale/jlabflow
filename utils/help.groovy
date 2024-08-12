@@ -15,6 +15,7 @@ class HelpUtil {
 		--mode                          Pipeline pathway; options: qpro (SE only), atac (PE only), cnr (PE or SE), ip (PE or SE), cnt (PE only)
 		--callpeaks                     Specification to call peaks on individual samples (currently only for ATACSEQ)
 		--callconsensus                 Specification to create consensus peaksets (not yet implemented)
+		--boostCleanup                  {EXPERIMENTAL} - activate nf-boost plugin to use boost-cleanup functionality
 		""".stripIndent(),
 		'atac': """
 			=================================================
