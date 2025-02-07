@@ -42,3 +42,4 @@ dependencies:
   - bioconda::bioconductor-genomicranges=1.50.0=r42ha9d7317_1
   - conda-forge::r-data.table=1.15.2=r42h029312a_0
   - bioconda::umi_tools=1.1.5=py39hf95cd2a_1
+  - conda-forge::matplotlib=3.7.3=py39hf3d152e_0
