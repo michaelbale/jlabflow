@@ -6,6 +6,7 @@ params.input = ''
 params.genome = 'mm39'
 params.name = 'JLABFLOW'
 
+
 def helpUtils = evaluate(new File("${projectDir}/utils/help.groovy"))
 if(params.help || params.mode == '') {
   helpUtils.showHelpMessage(params.mode)

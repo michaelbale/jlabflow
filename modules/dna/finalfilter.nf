@@ -23,13 +23,6 @@ process FINALFILTER {
 
    script:
    def filterARGS = params.SE ? '' : '-f 3 -F 8'
-   def filterCommand = params.doFil
-     ? "echo $id \$(bedtools intersect -a $bam -b ${filterList} -ubam -u | samtools view -c -@ task.cpus) > ${id}_filterCount.txt"
-     : ""
-   def filterOut = params.doFil 
-	 ? "bedtools subtract -A -a tmp.bam -b ${filterList} | samtools sort -@ $task.cpus - > ${id}_final.bam"
-	 : "samtools sort -@ $task.cpus -o ${id}_final.bam tmp.bam"
-
    """
    samtools index ${bam}
    export CHROMOSOMES=\$(samtools view -H ${bam} \
@@ -41,8 +34,8 @@ process FINALFILTER {
 	 xargs echo)
    samtools view -b -h $filterARGS -F 3332 -q 30 \
      ${bam} \$CHROMOSOMES > tmp.bam
-   $filterCommand
-   $filterOut
+   echo $id \$(bedtools intersect -a $bam -b ${filterList} -ubam -u | samtools view -c -@ task.cpus) > ${id}_filterCount.txt
+   bedtools subtract -A -a tmp.bam -b ${filterList} | samtools sort -@ $task.cpus - > ${id}_final.bam
    echo ${id} "\$(samtools view -@ $task.cpus -c ${id}_final.bam)" > ${id}_finalCount.txt
    """
 }
