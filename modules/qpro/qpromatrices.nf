@@ -14,7 +14,7 @@ include { PAUSEINDEX } from './qpromatrices/pauseindex'
 include { TXSTARTSITE } from './qpromatrices/txstartsite'
 
 
-workflow DATAVIZ {
+workflow QPROMATRICES {
   
   take:
   strandedBigwigs
