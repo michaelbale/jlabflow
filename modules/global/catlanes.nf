@@ -10,20 +10,29 @@
 
 process CATLANES {
     tag "Concatenating lanes for ${sampleID}"
+
     publishDir "${params.workDir}/${sampleID}", mode: 'copy', pattern: "*.gz"
 
     input:
-    tuple val(sampleID), path(reads1), path(reads2) // reads2 can be an empty list for SE
+    tuple val(sampleID), path(reads1), path(reads2)
 
     output:
     tuple val(sampleID), path("${sampleID}_*_combined.fq.gz"), optional: true, emit: combinedReads
 
     script:
-    def r2Exists = (reads2 && !reads2.isEmpty()) ? true : false
+    // Convert Path objects to strings
+    def r1files = reads1.collect { it.toString() }.join(' ')
+    def r2files = reads2.collect { it.toString() }.join(' ')
+
+    // Only include R2 commands if reads2 is non-empty
+    def r2Cmd = reads2 ? """
+        zcat ${r2files} > ${sampleID}_R2_combined.fq
+        gzip ${sampleID}_R2_combined.fq
+    """ : ''
+
     """
-    zcat ${reads1.join(' ')} > ${sampleID}_R1_combined.fq
-	gzip ${sampleID}_R1_combined.fq
-    ${r2Exists ? "zcat ${reads2.join(' ')} > ${sampleID}_R2_combined.fq; gzip ${sampleID}_R2_combined.fq" : ''}
+    zcat ${r1files} > ${sampleID}_R1_combined.fq
+    gzip ${sampleID}_R1_combined.fq
+    ${r2Cmd}
     """
 }
-

@@ -11,44 +11,31 @@ include { CATLANES } from './global/catlanes'
 
 workflow PREPAREINPUT {
 
-  take:
-    input
-  
-  main:
-    
-    print("PREPPING INPUT")
-    if(params.catlanes){
-	  Channel
-	    .fromPath(input)
-		.map { file ->
-		  def sampleName = file.baseName.split('_')[0]
-		  def isPE = !params.SE 
-		  return tuple(sampleName, file, isPE)
-		}
-		.groupTuple(by: 0) 
-		.map { sampleName, files, isPE ->
-                  files.sort { it.name }
-		  def reads1 = files.findAll { it.baseName.contains('_R1_') }
-		  def reads2 = isPE ? files.findAll { it.baseName.contains('_R2_') } : []
-		  return tuple(sampleName, reads1, (isPE ? reads2 : []))
-		}
-		.set { initFq }
-		reads = CATLANES( initFq )
-    } else if (params.SE) {
-      reads = Channel
-        .fromPath(input)
-        .map {
-          file ->
-            def sampleName = file.baseName.split('_')[0]
-            return [sampleName, file]
+    take:
+        input
+
+    main:
+
+    // Step 1: group input files by sampleID
+    Channel.fromPath(input, checkIfExists: true)
+        .map { file ->
+            def sampleID = file.baseName.split('_')[0]
+            return tuple(sampleID, file)
         }
-    } else {
-        reads = params.SE 
-          ? Channel.fromPath(input, checkIfExists: true) 
-          : Channel.fromFilePairs(input, checkIfExists: true)
-         
-    }
-	
-  emit:
-    reads
+        .groupTuple(by: 0)
+        .map { sampleID, files ->
+            files = files.sort { it.name }
+            def reads1 = files.findAll { it.baseName.contains('_R1_') }
+            def reads2 = files.findAll { it.baseName.contains('_R2_') }
+            tuple(sampleID, reads1, reads2)
+        }
+        .set { groupedReads }
+
+    // Step 2: conditionally run CATLANES for multi-lane data
+    reads = params.catLanes
+        ? CATLANES(groupedReads)       // multi-lane: concatenate
+        : groupedReads                  // single-lane: pass through unchanged
+
+    emit:
+        reads
 }
