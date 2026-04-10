@@ -7,7 +7,7 @@
  */
 
 process EXTRACTUMI {
-  tag "Aligning $id to ${params.genome}"
+  tag "Extracting UMI from $id"
   label 'med_mem'
   
   input:
@@ -18,7 +18,7 @@ process EXTRACTUMI {
   
   script:
   def inputArgs = params.SE ? "-I ${reads} -S ${id}_umiTools-processed.fq.gz" : "-I ${reads[0]} -S ${id}_R1_umiTools-processed.fq.gz --read2-in ${reads[1]} --read2-out ${id}_R2_umiTools-processed.fq.gz"
-  def bcPattern = params.SE ? "-p NNNNNN" : "-p NNNNNN -bc-pattern2 NNNNNN"
+  def bcPattern = params.SE ? "-p NNNNNN" : "-p NNNNNN --bc-pattern2 NNNNNN"
   """
   umi_tools \
     extract \
