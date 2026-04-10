@@ -20,10 +20,13 @@ process UMIDUPES {
   path("${id}_dedup.log"), emit: dedup_log
   
   script:
+  def isPaired = params.SE ? '' : '--paired'
+  
   """
   umi_tools dedup \
     -I $bam \
 	--umi-separator=":" \
+	$isPaired \
 	-L ${id}_dedup.log \
 	-S ${id}_rmDup.bam
 	
