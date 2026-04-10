@@ -19,7 +19,7 @@ process BIGWIGSTRANDED {
   val(strand)
   
   output:
-  tuple path("${id}_${strand}.bw"), emit: stranded_bw
+  path("${id}_${strand}.bw"), emit: stranded_bw
   
   script:
   def strandArg = (strand == 'plus') ? 'forward' : 'reverse'
