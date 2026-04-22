@@ -27,7 +27,7 @@ process TRIM {
   """
   trim_galore $isPaired \
     $qual ${params.qualLimit} \
-    -l ${params.trimLength} \
+    --length ${params.trimLength} \
     --basename ${id} \
     --stringency ${params.trimString} \
     -j $task.cpus \
