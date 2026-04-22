@@ -44,10 +44,10 @@ workflow QPRO {
 	  pipelineInfo()
 	  TRIM( data )
 	//  DEGRADATION( TRIM.out.trim_report.collect() ) //Edit for PE logic
-      EXTRACTUMI( TRIM.out.trimmed_reads ) 
+          EXTRACTUMI( TRIM.out.trimmed_reads ) 
 	  BOWTIE2MAP( params.bt2_index, EXTRACTUMI.out.umi_extract_reads )
 	  FASTQC( EXTRACTUMI.out.umi_extract_reads )
-	  UMIDUPES( BOWTIE2MAP.out.init_bt2 ) //Edit for PE logic
+          UMIDUPES( BOWTIE2MAP.out.init_bt2 ) //Edit for PE logic
 	  IDXSTATS( UMIDUPES.out.dedup_bam )
 	  FINALFILTER( params.forbid, UMIDUPES.out.dedup_bam )
 	  BIGWIGSTRANDEDPLUS( FINALFILTER.out.final_bams, 'plus' )

@@ -27,10 +27,11 @@ process BIGWIGSTRANDED {
   samtools index -@ $task.cpus $bam
   bamCoverage -p $task.cpus \
     --bam $bam \
-	-o ${id}_${strand}.bw \
-	-bs 1 --normalizeUsing None \
-        --skipNAs \
-	--Offset 1 \
-	--filterRNAstrand $strandArg
+    -o ${id}_${strand}.bw \
+    -bs 1 --normalizeUsing None \
+    --skipNAs \
+    --Offset 1 \
+    --samFlagInclude 64
+    --filterRNAstrand $strandArg
   """
 }

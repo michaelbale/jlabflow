@@ -32,7 +32,7 @@ process BOWTIE2MAP {
     --local --very-sensitive-local \
     -X 1000 -k 4 --mm \
 	$dovetail \
-	$inputArgs 2> ${id}_bt2.log  | samtools view -bS -q 30 - > ${id}_init.bam
+	$inputArgs 2> ${id}_bt2.log  | samtools view -bS -q ${params.btQual} - > ${id}_init.bam
   samtools sort -@ $task.cpus ${id}_init.bam > ${id}_iSort.bam
   samtools index ${id}_iSort.bam
   """

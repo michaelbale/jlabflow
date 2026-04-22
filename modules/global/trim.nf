@@ -23,7 +23,14 @@ process TRIM {
 
   script:
   def isPaired = params.SE ? '' : '--paired'
+  def qual = params.2color ? '--2colour' : '-q'
   """
-  trim_galore $isPaired --basename ${id} -j $task.cpus ${reads.join(' ')}
+  trim_galore $isPaired \
+    $qual ${params.qualLimit} \
+    -l ${params.trimLength} \
+    --basename ${id} \
+    --stringency ${params.trimString}
+    -j $task.cpus \
+    ${reads.join(' ')}
   """
 }
