@@ -29,7 +29,7 @@ process TRIM {
     $qual ${params.qualLimit} \
     -l ${params.trimLength} \
     --basename ${id} \
-    --stringency ${params.trimString}
+    --stringency ${params.trimString} \
     -j $task.cpus \
     ${reads.join(' ')}
   """
