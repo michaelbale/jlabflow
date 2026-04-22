@@ -23,7 +23,7 @@ process TRIM {
 
   script:
   def isPaired = params.SE ? '' : '--paired'
-  def qual = params.2color ? '--2colour' : '-q'
+  def qual = params.twoColor ? '--2colour' : '-q'
   """
   trim_galore $isPaired \
     $qual ${params.qualLimit} \
