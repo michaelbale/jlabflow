@@ -31,7 +31,7 @@ process BIGWIGSTRANDED {
     -bs 1 --normalizeUsing None \
     --skipNAs \
     --Offset 1 \
-    --samFlagInclude 64
+    --samFlagInclude 64 \
     --filterRNAstrand $strandArg
   """
 }
