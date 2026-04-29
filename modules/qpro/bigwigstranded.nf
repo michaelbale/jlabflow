@@ -23,6 +23,7 @@ process BIGWIGSTRANDED {
   
   script:
   def strandArg = (strand == 'plus') ? 'forward' : 'reverse'
+  def strandInclude = params.SE ? '' : '--samFlagInclude 64'
   """
   samtools index -@ $task.cpus $bam
   bamCoverage -p $task.cpus \
@@ -31,7 +32,7 @@ process BIGWIGSTRANDED {
     -bs 1 --normalizeUsing None \
     --skipNAs \
     --Offset 1 \
-    --samFlagInclude 64 \
+    $strandInclude \
     --filterRNAstrand $strandArg
   """
 }
